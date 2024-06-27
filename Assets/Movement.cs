@@ -9,6 +9,7 @@ public class Movement : MonoBehaviour
     public Rigidbody2D rigid;
 
     public float speed = 5f;
+    private float basicSpeed;
     public KeyCode UpKey = KeyCode.W;
     public KeyCode DownKey = KeyCode.S;
    
@@ -16,8 +17,20 @@ public class Movement : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        basicSpeed = speed;
         sprite = GetComponent<SpriteRenderer>();
         rigid = GetComponent<Rigidbody2D>();
+        Ball.BallReset += OnBallReset;
+    }
+
+    private void OnDestroy()
+    {
+        Ball.BallReset -= OnBallReset;
+    }
+
+    private void OnBallReset()
+    {
+        speed = basicSpeed;
     }
 
     // Update is called once per frame
